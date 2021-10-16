@@ -13,6 +13,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
+  background-color: #4673ac;
 }
 
 .btn {
@@ -27,7 +28,7 @@
 }
 .btn:hover {
   cursor: pointer;
-  background-color: #e1e1e1;
+  background-color: #e6e6e6;
 }
 
 .select-difficulty-screen {
@@ -50,7 +51,7 @@
   margin-bottom: 5px;
 }
 .select-difficulty-screen .difficulty-btn-container .difficulty-btn.selected {
-  background-color: #82d7ff;
+  background-color: #ffe89b;
 }
 
 .sudoku-game-screen {
@@ -81,28 +82,30 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 1.25rem;
   -webkit-user-select: none;
      -moz-user-select: none;
       -ms-user-select: none;
           user-select: none;
+  font-weight: 900;
   border: 1px solid black;
+  background-color: white;
   transition: all 0.3s ease;
-}
-.sudoku-game-screen .sudoku-board .board-row .board-cell:hover {
-  cursor: pointer;
-  background-color: #82d7ff;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell:nth-of-type(3n) {
   border-right: 2px solid black;
 }
+.sudoku-game-screen .sudoku-board .board-row .board-cell:not(.locked):not(.done):hover {
+  cursor: pointer;
+  background-color: #ffe89b;
+}
 .sudoku-game-screen .sudoku-board .board-row .board-cell.locked {
-  font-size: 1.25rem;
-  font-weight: 900;
-  color: rgba(0, 0, 0, 0.5);
-  background-color: rgba(0, 0, 0, 0.075);
+  font-weight: 500;
+  color: #969696;
+  background-color: #ededed;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell .cell-value.correct {
-  color: #68c765;
+  color: #5c945a;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell .cell-value.incorrect {
   color: red;
@@ -124,6 +127,7 @@
   margin-bottom: 1rem;
   line-height: 1.5;
   border: 2px solid black;
+  background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
 }
 .info-screen .success-msg {
