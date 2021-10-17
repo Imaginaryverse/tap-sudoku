@@ -1,6 +1,6 @@
 # TAP SUDOKU
 
-<h3 align="center"> -----> <a href="https://imaginaryverse.github.io/tap-sudoku/">PLAY TAP SUDOKU!</a> <----- </h3>
+<h3 align="center"> -----> <a target="_blank" href="https://imaginaryverse.github.io/tap-sudoku/">PLAY TAP SUDOKU!</a> <----- </h3>
 
 <p align="center">A simple Sudoku game.</p>
 
@@ -10,7 +10,7 @@
 
 Simply select your preferred difficulty level and press "START".
 Tap an empty cell to incrementally change the value inside.
-If you tap past 9 the cell will reset and becomes empty.
+If you tap past 9 the cell resets and becomes empty.
 
 When you have populated every empty cell with a value and you believe you have the solution, press "Try Solution".
 If your solution isn't correct the game will continue and incorrect values will be marked in red. Otherwise, correct values will be marked in green, the timer will stop and your statistics will be presented.
