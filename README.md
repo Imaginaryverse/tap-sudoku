@@ -1,6 +1,6 @@
 # TAP SUDOKU
 
-<h3 align="center"> -----> <a target="_blank" href="https://imaginaryverse.github.io/tap-sudoku/">PLAY TAP SUDOKU!</a> <----- </h3>
+<h3 align="center"> -----> <a href="https://imaginaryverse.github.io/tap-sudoku/">PLAY TAP SUDOKU!</a> <----- </h3>
 
 <p align="center">A simple Sudoku game.</p>
 
