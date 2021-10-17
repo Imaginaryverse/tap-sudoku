@@ -1,6 +1,6 @@
 # TAP SUDOKU
 
-#### -----> [PLAY TAP SUDOKU!](https://imaginaryverse.github.io/tap-sudoku/) <-----
+<h3 align="center"> -----> <a href="https://imaginaryverse.github.io/tap-sudoku/">PLAY TAP SUDOKU!</a> <----- </h3>
 
 #### SUMMARY
 
