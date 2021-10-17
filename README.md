@@ -2,11 +2,9 @@
 
 <h3 align="center"> -----> <a href="https://imaginaryverse.github.io/tap-sudoku/">PLAY TAP SUDOKU!</a> <----- </h3>
 
-#### SUMMARY
+<p align="center">A simple Sudoku game.</p>
 
-A simple Sudoku game.
-
-Choose your preferred difficulty level and start playing!
+<p align="center">Choose your preferred difficulty level and start playing!</p>
 
 #### HOW TO PLAY
 
