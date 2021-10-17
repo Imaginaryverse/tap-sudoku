@@ -27,7 +27,8 @@ const InfoScreen: FC<IProps> = ({
         <b>Number of attempts</b>: {attempts}
       </p>
       <p className='info'>
-        <b>Accuracy</b>: {formatPercent(accuracy)}
+        <b>Accuracy</b>:{' '}
+        {attempts ? formatPercent(accuracy) : 'Awaiting solution'}
       </p>
     </div>
   );
