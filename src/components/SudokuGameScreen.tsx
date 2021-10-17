@@ -11,7 +11,7 @@ const SudokuBoard: FC = () => {
     isCorrectSolution,
     difficulty,
     accuracy,
-    goBack,
+    setGameState,
   } = useContext(appContext);
   const [localBoard, setLocalBoard] = useState<TSudokuBoard>([]);
   const [timer, setTimer] = useState<number>(0);
@@ -105,7 +105,10 @@ const SudokuBoard: FC = () => {
       )}
 
       <div className='game-btn-container'>
-        <button className='btn back-btn' onClick={() => goBack()}>
+        <button
+          className='btn back-btn'
+          onClick={() => setGameState('IN_SELECT_DIFFICULTY')}
+        >
           {isCorrectSolution ? 'Play Again' : 'Back'}
         </button>
         {!isCorrectSolution ? (

@@ -32,6 +32,7 @@ const Context: FC = ({ children }) => {
   const [solvedBoard, setSolvedBoard] = useState<TSolvedBoard>([]);
   const [board, setBoard] = useState<TSudokuBoard>([]);
   const [attempts, setAttempts] = useState<number>(0);
+  const [totalMisses, setTotalMisses] = useState<number>(0);
   const [accuracy, setAccuracy] = useState<number>(0);
   const [isCorrectSolution, setIsCorrectSolution] = useState<boolean>(false);
 
@@ -81,6 +82,7 @@ const Context: FC = ({ children }) => {
           checkedBoard[row][col].value !== solvedBoard[row][col]
         ) {
           checkedBoard[row][col].incorrect = true;
+          setTotalMisses(prevState => (prevState += 1));
         }
       }
     }
@@ -101,41 +103,40 @@ const Context: FC = ({ children }) => {
   function calculateAccuracy(
     attempts: number,
     numOfHoles: number,
-    board: TSudokuBoard
+    totalMisses: number
   ) {
-    let totalCorrectVals = 0;
-    for (let row in board) {
-      for (let col in board[row]) {
-        if (
-          !board[row][col].locked &&
-          board[row][col].value === solvedBoard[row][col]
-        ) {
-          totalCorrectVals += 1;
-        }
-      }
-    }
-
-    const misses: number = (totalCorrectVals / numOfHoles) * attempts;
-    setAccuracy(100 - misses);
+    const possibilities = numOfHoles * attempts;
+    const errorPercentage = (totalMisses / possibilities) * 100;
+    setAccuracy(100 - errorPercentage);
   }
 
-  function startGame() {
-    const solution = generateSolution();
-    setSolvedBoard(solution);
-    generateBoard(solution);
-    setGameState('IN_GAME');
-  }
-
-  function goBack() {
-    setGameState('IN_SELECT_DIFFICULTY');
+  function resetGameStates() {
     setSolvedBoard([]);
     setBoard([]);
     setAttempts(0);
+    setAccuracy(0);
+    setTotalMisses(0);
     setIsCorrectSolution(false);
   }
 
   useEffect(() => {
-    calculateAccuracy(attempts, numOfHoles, board);
+    switch (gameState) {
+      case 'IN_SELECT_DIFFICULTY': {
+        resetGameStates();
+        break;
+      }
+      case 'IN_GAME':
+        const solution = generateSolution();
+        setSolvedBoard(solution);
+        generateBoard(solution);
+        break;
+    }
+  }, [gameState]);
+
+  useEffect(() => {
+    if (attempts) {
+      calculateAccuracy(attempts, numOfHoles, totalMisses);
+    }
   }, [attempts]);
 
   return (
@@ -147,11 +148,9 @@ const Context: FC = ({ children }) => {
         selectDifficulty,
         board,
         generateSolvedBoard,
-        startGame,
         checkCorrectness,
         attempts,
         isCorrectSolution,
-        goBack,
         accuracy,
       }}
     >

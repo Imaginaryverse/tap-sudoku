@@ -25,7 +25,7 @@ const difficultyLevels = [
 ];
 
 const SelectDifficultyScreen: FC = () => {
-  const { difficulty, selectDifficulty, startGame } = useContext(appContext);
+  const { difficulty, selectDifficulty, setGameState } = useContext(appContext);
 
   return (
     <div className='select-difficulty-screen'>
@@ -47,7 +47,7 @@ const SelectDifficultyScreen: FC = () => {
         })}
       </div>
 
-      <button className='btn start-btn' onClick={() => startGame()}>
+      <button className='btn start-btn' onClick={() => setGameState('IN_GAME')}>
         START
       </button>
     </div>
