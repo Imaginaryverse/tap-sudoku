@@ -5,11 +5,7 @@ import {
   pokeHolesInBoard,
 } from './utils/boardGenerators';
 
-export type TGameState =
-  | 'IS_LOADING'
-  | 'IN_MENU'
-  | 'IN_SELECT_DIFFICULTY'
-  | 'IN_GAME';
+export type TGameState = 'IN_SELECT_DIFFICULTY' | 'IN_GAME';
 export type TSudokuCell = {
   value: number;
   locked: boolean;
@@ -38,15 +34,6 @@ const Context: FC = ({ children }) => {
   const [attempts, setAttempts] = useState<number>(0);
   const [accuracy, setAccuracy] = useState<number>(0);
   const [isCorrectSolution, setIsCorrectSolution] = useState<boolean>(false);
-
-  // TODO:
-  // Add accuracy state
-  // Accuracy is calculated based on:
-  // 1. Number of empty cells of starting board
-  // 2. Number of attempts
-  // If all cells are correct upon checkCorrectness
-  // => accuracy = 100%
-  // Ugh... Quick maths.
 
   function selectDifficulty(difficulty: TDifficulty) {
     switch (difficulty) {
@@ -111,22 +98,6 @@ const Context: FC = ({ children }) => {
     setBoard(checkedBoard);
   }
 
-  function startGame() {
-    setGameState('IS_LOADING');
-    const solution = generateSolution();
-    setSolvedBoard(solution);
-    generateBoard(solution);
-    setGameState('IN_GAME');
-  }
-
-  function goBack() {
-    setGameState('IN_SELECT_DIFFICULTY');
-    setSolvedBoard([]);
-    setBoard([]);
-    setAttempts(0);
-    setIsCorrectSolution(false);
-  }
-
   function calculateAccuracy(
     attempts: number,
     numOfHoles: number,
@@ -146,6 +117,21 @@ const Context: FC = ({ children }) => {
 
     const misses: number = (totalCorrectVals / numOfHoles) * attempts;
     setAccuracy(100 - misses);
+  }
+
+  function startGame() {
+    const solution = generateSolution();
+    setSolvedBoard(solution);
+    generateBoard(solution);
+    setGameState('IN_GAME');
+  }
+
+  function goBack() {
+    setGameState('IN_SELECT_DIFFICULTY');
+    setSolvedBoard([]);
+    setBoard([]);
+    setAttempts(0);
+    setIsCorrectSolution(false);
   }
 
   useEffect(() => {

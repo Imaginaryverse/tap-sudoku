@@ -111,10 +111,6 @@
           border-right: 2px solid black;
         }
 
-        &.is-gray {
-          // background-color: rgb(237, 237, 237);
-        }
-
         &:not(.locked) {
           &:not(.done) {
             &:hover {

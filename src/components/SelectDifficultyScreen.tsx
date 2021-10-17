@@ -1,4 +1,4 @@
-import { FC, useState, useContext } from 'react';
+import { FC, useContext } from 'react';
 import { appContext } from '../context';
 
 const difficultyLevels = [
@@ -25,8 +25,7 @@ const difficultyLevels = [
 ];
 
 const SelectDifficultyScreen: FC = () => {
-  const { difficulty, selectDifficulty, generateSolvedBoard, startGame } =
-    useContext(appContext);
+  const { difficulty, selectDifficulty, startGame } = useContext(appContext);
 
   return (
     <div className='select-difficulty-screen'>
