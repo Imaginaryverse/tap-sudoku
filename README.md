@@ -28,7 +28,7 @@ The game keeps track of the time and number of attempts you spend trying to solv
 
 If I have done my research well and done my programming correctly, there should (hopefully) only be one possible solution for each board.
 
-#### Frameworks and technologies:
+#### FRAMEWORKS AND TECHNOLOGIES
 
 - Vite
 - React
