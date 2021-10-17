@@ -15,6 +15,7 @@ const SudokuBoard: FC = () => {
   } = useContext(appContext);
   const [localBoard, setLocalBoard] = useState<TSudokuBoard>([]);
   const [timer, setTimer] = useState<number>(0);
+  const [isIncomplete, setIsComplete] = useState<boolean>(true);
 
   function increment(rowIndex: number, colIndex: number) {
     if (isCorrectSolution) return;
@@ -45,6 +46,10 @@ const SudokuBoard: FC = () => {
 
     return () => clearInterval(interval);
   }, [isCorrectSolution]);
+
+  useEffect(() => {
+    setIsComplete(localBoard.some(row => row.some(cell => cell.value === 0)));
+  }, [localBoard]);
 
   useEffect(() => {
     setLocalBoard([...board]);
@@ -115,7 +120,7 @@ const SudokuBoard: FC = () => {
           <button
             className='btn try-solution-btn'
             onClick={() => checkCorrectness(localBoard)}
-            disabled={isCorrectSolution}
+            disabled={isCorrectSolution || isIncomplete}
           >
             Try Solution
           </button>
