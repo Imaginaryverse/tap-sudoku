@@ -32,12 +32,44 @@ const Context: FC = ({ children }) => {
     'IN_SELECT_DIFFICULTY'
   );
   const [difficulty, setDifficulty] = useState<TDifficulty>('normal');
+  const [numOfHoles, setNumOfHoles] = useState<number>(40);
   const [solvedBoard, setSolvedBoard] = useState<TSolvedBoard>([]);
   const [board, setBoard] = useState<TSudokuBoard>([]);
   const [attempts, setAttempts] = useState<number>(0);
+  const [accuracy, setAccuracy] = useState<number>(0);
   const [isCorrectSolution, setIsCorrectSolution] = useState<boolean>(false);
 
+  // TODO:
+  // Add accuracy state
+  // Accuracy is calculated based on:
+  // 1. Number of empty cells of starting board
+  // 2. Number of attempts
+  // If all cells are correct upon checkCorrectness
+  // => accuracy = 100%
+  // Ugh... Quick maths.
+
   function selectDifficulty(difficulty: TDifficulty) {
+    switch (difficulty) {
+      case 'very easy':
+        setNumOfHoles(15);
+        break;
+      case 'easy':
+        setNumOfHoles(25);
+        break;
+      case 'normal':
+        setNumOfHoles(40);
+        break;
+      case 'hard':
+        setNumOfHoles(55);
+        break;
+      case 'very hard':
+        setNumOfHoles(64);
+        break;
+      default:
+        setNumOfHoles(40);
+        break;
+    }
+
     return setDifficulty(difficulty);
   }
 
@@ -47,30 +79,7 @@ const Context: FC = ({ children }) => {
 
   function generateBoard(board: Array<Array<number>>) {
     const objectBoard = generateStartingBoard([...board]);
-
-    let holes = 45;
-    switch (difficulty) {
-      case 'very easy':
-        holes = 15;
-        break;
-      case 'easy':
-        holes = 25;
-        break;
-      case 'normal':
-        holes = 40;
-        break;
-      case 'hard':
-        holes = 55;
-        break;
-      case 'very hard':
-        holes = 64;
-        break;
-      default:
-        holes = 40;
-        break;
-    }
-
-    const startingBoard = pokeHolesInBoard(objectBoard, holes);
+    const startingBoard = pokeHolesInBoard(objectBoard, numOfHoles);
     setBoard(startingBoard);
   }
 
@@ -118,6 +127,31 @@ const Context: FC = ({ children }) => {
     setIsCorrectSolution(false);
   }
 
+  function calculateAccuracy(
+    attempts: number,
+    numOfHoles: number,
+    board: TSudokuBoard
+  ) {
+    let totalCorrectVals = 0;
+    for (let row in board) {
+      for (let col in board[row]) {
+        if (
+          !board[row][col].locked &&
+          board[row][col].value === solvedBoard[row][col]
+        ) {
+          totalCorrectVals += 1;
+        }
+      }
+    }
+
+    const misses: number = (totalCorrectVals / numOfHoles) * attempts;
+    setAccuracy(100 - misses);
+  }
+
+  useEffect(() => {
+    calculateAccuracy(attempts, numOfHoles, board);
+  }, [attempts]);
+
   return (
     <appContext.Provider
       value={{
@@ -132,6 +166,7 @@ const Context: FC = ({ children }) => {
         attempts,
         isCorrectSolution,
         goBack,
+        accuracy,
       }}
     >
       {children}

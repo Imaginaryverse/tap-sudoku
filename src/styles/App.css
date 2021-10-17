@@ -101,7 +101,7 @@
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell.locked {
   font-weight: 500;
-  color: #969696;
+  color: #919191;
   background-color: #ededed;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell .cell-value.correct {
@@ -130,11 +130,33 @@
   background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
 }
-.info-screen .success-msg {
-  text-align: center;
-  margin-bottom: 0.3rem;
-  color: #68c765;
-}
 .info-screen .info {
+  font-size: 0.9rem;
+}
+.info-screen .info .info-difficulty {
+  text-transform: capitalize;
+}
+
+.result-screen {
+  width: 95.5%;
+  max-width: 453px;
+  padding: 0.75rem;
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid black;
+  background-color: white;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
+}
+.result-screen .result-title {
+  margin-bottom: 0.5rem;
+  color: #5c945a;
+}
+.result-screen .result-info {
+  max-width: 85%;
+  margin-bottom: 0.5rem;
+  text-align: center;
   font-size: 0.9rem;
 }/*# sourceMappingURL=App.css.map */

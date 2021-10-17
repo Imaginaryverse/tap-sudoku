@@ -1,6 +1,9 @@
 import { FC, useContext, useState, useEffect } from 'react';
 import { appContext, TSudokuBoard, TSudokuBoardRow } from '../context';
 import formatTime from '../utils/formatTime';
+import formatPercent from '../utils/formatPercent';
+import InfoScreen from './InfoScreen';
+import ResultScreen from './ResultScreen';
 
 const SudokuBoard: FC = () => {
   const {
@@ -9,6 +12,7 @@ const SudokuBoard: FC = () => {
     attempts,
     isCorrectSolution,
     difficulty,
+    accuracy,
     goBack,
   } = useContext(appContext);
   const [localBoard, setLocalBoard] = useState<TSudokuBoard>([]);
@@ -105,7 +109,23 @@ const SudokuBoard: FC = () => {
         </tbody>
       </table>
 
-      <div className='info-screen'>
+      {!isCorrectSolution ? (
+        <InfoScreen
+          difficulty={difficulty}
+          timer={timer}
+          attempts={attempts}
+          accuracy={accuracy}
+        />
+      ) : (
+        <ResultScreen
+          difficulty={difficulty}
+          timer={timer}
+          attempts={attempts}
+          accuracy={accuracy}
+        />
+      )}
+
+      {/* <div className='info-screen'>
         {isCorrectSolution ? <h3 className='success-msg'>WELL DONE!</h3> : ''}
 
         <p className='info'>
@@ -117,7 +137,10 @@ const SudokuBoard: FC = () => {
         <p className='info'>
           <b>Number of attempts</b>: {attempts}
         </p>
-      </div>
+        <p className='info'>
+          <b>Accuracy</b>: {formatPercent(accuracy)}
+        </p>
+      </div> */}
       <div className='game-btn-container'>
         <button className='btn back-btn' onClick={() => goBack()}>
           {isCorrectSolution ? 'Play Again' : 'Back'}
