@@ -1,6 +1,8 @@
 # TAP SUDOKU
 
-A simply Sudoku game.
+## [PLAY TAP SUDOKU](https://imaginaryverse.github.io/tap-sudoku/)
+
+A simple Sudoku game.
 
 Choose your preferred difficulty level and start playing!
 
