@@ -17,9 +17,9 @@ const ResultScreen: FC<IProps> = ({
 }: IProps) => {
   return (
     <div className='result-screen'>
-      <h3 className='result-title'>Well done!</h3>
+      <h3 className='result-title'>WELL DONE!</h3>
 
-      <p className='result-info'>
+      {/* <p className='result-info'>
         In {attempts < 3 ? 'just' : ''}{' '}
         <b>
           {attempts}
@@ -27,6 +27,19 @@ const ResultScreen: FC<IProps> = ({
         </b>{' '}
         and <b>{formatTime(timer)}</b> you completed a {difficulty} board with{' '}
         <b>{formatPercent(accuracy)}</b> accuracy!
+      </p> */}
+      <p className='result-info'>
+        You completed this <b>{difficulty}</b> board
+      </p>
+      <p className='result-info'>
+        with <b>{formatPercent(accuracy)}</b> accuracy in{' '}
+        <b>
+          {attempts} {attempts > 1 ? 'attempts' : 'attempt'}
+        </b>
+        .
+      </p>
+      <p className='result-info'>
+        The game lasted for <b>{formatTime(timer)}</b>
       </p>
     </div>
   );
