@@ -13,22 +13,29 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  background-color: #4673ac;
+  background-color: #141414;
 }
 
 .btn {
   height: 45px;
   width: 100%;
   max-width: 200px;
-  border: 2px solid black;
-  border-radius: 5px;
-  background-color: whitesmoke;
+  color: white;
+  border: 2px solid rgba(218, 209, 90, 0.75);
+  border-radius: 25px;
+  background-color: transparent;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
   transition: all 0.1s ease;
 }
+.btn:disabled {
+  height: 0;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.25);
+  border-color: rgba(255, 255, 255, 0.25);
+}
 .btn:not(:disabled):hover {
   cursor: pointer;
-  background-color: #e6e6e6;
+  background-color: rgba(100, 100, 100, 0.2);
 }
 
 .select-difficulty-screen {
@@ -49,9 +56,13 @@
 }
 .select-difficulty-screen .difficulty-btn-container .difficulty-btn {
   margin-bottom: 5px;
+  border: 2px solid rgba(255, 255, 255, 0.25);
 }
 .select-difficulty-screen .difficulty-btn-container .difficulty-btn.selected {
-  background-color: #ffe89b;
+  background-color: rgba(121, 230, 198, 0.6);
+}
+.select-difficulty-screen .start-btn {
+  border: 2px solid rgba(255, 255, 255, 0.25);
 }
 
 .sudoku-game-screen {
@@ -63,16 +74,25 @@
   align-items: center;
 }
 .sudoku-game-screen .sudoku-board {
-  border-left: 1px solid black;
-  border-top: 1px solid black;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-left: 1px solid rgba(255, 255, 255, 0.25);
   margin-bottom: 1rem;
+  background-color: transparent;
+  border-top: 1px solid rgba(255, 255, 255, 0.25);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
 }
 .sudoku-game-screen .sudoku-board .board-row {
   display: flex;
 }
-.sudoku-game-screen .sudoku-board .board-row:nth-of-type(3n) .board-cell {
-  border-bottom: 2px solid black;
+.sudoku-game-screen .sudoku-board .board-row:not(:nth-child(9)) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.25);
+}
+.sudoku-game-screen .sudoku-board .board-row:nth-child(3) {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.25);
+}
+.sudoku-game-screen .sudoku-board .board-row:nth-child(6) {
+  border-bottom: 3px solid rgba(255, 255, 255, 0.25);
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell {
   height: calc(100vw / 9.5);
@@ -88,21 +108,31 @@
       -ms-user-select: none;
           user-select: none;
   font-weight: 900;
-  border: 1px solid black;
-  background-color: white;
+  color: white;
   transition: all 0.3s ease;
 }
-.sudoku-game-screen .sudoku-board .board-row .board-cell:nth-of-type(3n) {
-  border-right: 2px solid black;
+.sudoku-game-screen .sudoku-board .board-row .board-cell:not(:nth-child(3), :nth-child(6)) {
+  border-right: 1px solid rgba(255, 255, 255, 0.25);
+}
+.sudoku-game-screen .sudoku-board .board-row .board-cell:nth-child(3) {
+  border-right: 3px solid rgba(255, 255, 255, 0.25);
+}
+.sudoku-game-screen .sudoku-board .board-row .board-cell:nth-child(6) {
+  border-right: 3px solid rgba(255, 255, 255, 0.25);
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell:not(.locked):not(.done):hover {
   cursor: pointer;
-  background-color: #ffe89b;
+}
+.sudoku-game-screen .sudoku-board .board-row .board-cell:not(.locked):not(.done):hover:not(.selected) {
+  background-color: rgba(121, 230, 198, 0.35);
+}
+.sudoku-game-screen .sudoku-board .board-row .board-cell.selected {
+  background-color: rgba(121, 230, 198, 0.6);
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell.locked {
   font-weight: 500;
   color: #919191;
-  background-color: #ededed;
+  background-color: rgba(100, 100, 100, 0.1);
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell .cell-value.correct {
   color: #5c945a;
@@ -113,48 +143,102 @@
 .sudoku-game-screen .game-btn-container {
   width: 100%;
   max-width: 453px;
+  margin-top: 0.75rem;
   display: flex;
   justify-content: space-evenly;
+  align-items: center;
 }
 .sudoku-game-screen .game-btn-container .btn {
   margin: 0 1rem;
 }
 
-.info-screen {
+.bottom-container {
+  height: 150px;
   width: 95.5%;
   max-width: 453px;
+  border: 1px solid rgba(255, 255, 255, 0.25);
+}
+.bottom-container .cell-editor {
+  height: 100%;
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.bottom-container .cell-editor .cell-value-list {
+  height: 100%;
+  width: 100%;
+  margin-right: 5%;
+  display: grid;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+}
+.bottom-container .cell-editor .cell-value-list .val-btn {
+  height: 100%;
+  width: 100%;
+  border: 2px solid rgba(255, 255, 255, 0.25);
+  border-radius: 0;
+}
+.bottom-container .cell-editor .cell-value-list .val-btn.selected {
+  background-color: rgba(121, 230, 198, 0.6);
+}
+.bottom-container .cell-editor .cell-candidates-list {
+  height: 100%;
+  width: 100%;
+  display: grid;
+  justify-items: center;
+  align-items: center;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.25rem;
+}
+.bottom-container .cell-editor .cell-candidates-list .candidate-btn {
+  height: 75%;
+  width: 75%;
+}
+.bottom-container .cell-editor .cell-candidates-list .candidate-btn.selected {
+  background-color: #ffe89b;
+}
+.bottom-container .cell-editor .editor-btn-container {
+  margin-top: 0.5rem;
+  display: flex;
+  justify-content: center;
+}
+.bottom-container .info-screen {
+  height: 100%;
+  width: 100%;
   padding: 0.75rem;
   margin-bottom: 1rem;
+  color: white;
   line-height: 1.5;
-  border: 2px solid black;
-  background-color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
 }
-.info-screen .info {
+.bottom-container .info-screen .info {
   font-size: 0.9rem;
 }
-.info-screen .info .info-difficulty {
+.bottom-container .info-screen .info .info-difficulty {
   text-transform: capitalize;
 }
-
-.result-screen {
-  width: 95.5%;
-  max-width: 453px;
+.bottom-container .result-screen {
+  height: 100%;
+  width: 100%;
   padding: 0.75rem;
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px solid black;
-  background-color: white;
+  color: white;
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
 }
-.result-screen .result-title {
+.bottom-container .result-screen .result-title {
   margin-bottom: 0.5rem;
   color: #5c945a;
 }
-.result-screen .result-info {
+.bottom-container .result-screen .result-info {
   max-width: 85%;
   margin-bottom: 0.25rem;
   text-align: center;

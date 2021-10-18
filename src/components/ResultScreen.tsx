@@ -18,16 +18,6 @@ const ResultScreen: FC<IProps> = ({
   return (
     <div className='result-screen'>
       <h3 className='result-title'>WELL DONE!</h3>
-
-      {/* <p className='result-info'>
-        In {attempts < 3 ? 'just' : ''}{' '}
-        <b>
-          {attempts}
-          {attempts > 1 ? ' attempts' : ' attempt'}
-        </b>{' '}
-        and <b>{formatTime(timer)}</b> you completed a {difficulty} board with{' '}
-        <b>{formatPercent(accuracy)}</b> accuracy!
-      </p> */}
       <p className='result-info'>
         You completed this <b>{difficulty}</b> board
       </p>

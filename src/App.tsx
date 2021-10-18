@@ -8,7 +8,7 @@ const App: FC = () => {
   const { board, gameState } = useContext(appContext);
   return (
     <div className='App'>
-      <h2 style={{ marginBottom: '1rem' }}>TAP SUDOKU</h2>
+      {/* <h2 style={{ marginBottom: '1rem' }}>TAP SUDOKU</h2> */}
 
       {gameState === 'IN_SELECT_DIFFICULTY' ? <SelectDifficultyScreen /> : null}
 

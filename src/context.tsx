@@ -8,8 +8,10 @@ import {
 export type TGameState = 'IN_SELECT_DIFFICULTY' | 'IN_GAME';
 export type TSudokuCell = {
   value: number;
-  locked: boolean;
-  incorrect: boolean;
+  candidates: Array<number>;
+  isLocked: boolean;
+  isCorrect: boolean;
+  isHighlighted: boolean;
 };
 export type TSudokuBoardRow = Array<TSudokuCell>;
 export type TSudokuBoard = Array<TSudokuBoardRow>;
@@ -78,10 +80,10 @@ const Context: FC = ({ children }) => {
     for (let row in checkedBoard) {
       for (let col in checkedBoard[row]) {
         if (
-          !checkedBoard[row][col].locked &&
+          !checkedBoard[row][col].isLocked &&
           checkedBoard[row][col].value !== solvedBoard[row][col]
         ) {
-          checkedBoard[row][col].incorrect = true;
+          checkedBoard[row][col].isCorrect = false;
           setTotalMisses(prevState => (prevState += 1));
         }
       }
