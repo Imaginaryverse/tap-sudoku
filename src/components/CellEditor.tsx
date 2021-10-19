@@ -62,11 +62,12 @@ const CellEditor: FC<IProps> = ({
         </button>
       </div>
       <ul className='cell-value-list'>
-        {numbers.map(val => {
+        {numbers.map((val, i) => {
           return (
             <button
               className={`btn val-btn ${val === selectedVal ? 'selected' : ''}`}
               onClick={() => setSelectedVal(val === selectedVal ? 0 : val)}
+              key={i}
             >
               {val}
             </button>
@@ -78,13 +79,14 @@ const CellEditor: FC<IProps> = ({
         {/* <p className='candidates-label'>Candidates:</p> */}
 
         <ul className='cell-candidates-list'>
-          {numbers.map(candidate => {
+          {numbers.map((candidate, i) => {
             return (
               <button
                 className={`btn candidate-btn ${
                   selectedCandidates.includes(candidate) ? 'selected' : ''
                 }`}
                 onClick={() => handleCandidateClick(candidate)}
+                key={i}
               >
                 {candidate}
               </button>

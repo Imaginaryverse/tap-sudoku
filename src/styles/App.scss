@@ -9,9 +9,9 @@ $trans-white-light: rgb(180, 180, 180);
 $btn-hover: rgba(100, 100, 100, 0.2);
 
 $selected: hsl(41, 45%, 45%);
-$highlighted: hsl(41, 45%, 35%);
-$highlighted-hover: hsl(41, 45%, 45%);
-$highlighted-locked: hsl(41, 45%, 25%);
+$highlighted: hsl(41, 45%, 27.5%);
+$highlighted-hover: hsl(41, 45%, 35%);
+$highlighted-locked: hsl(41, 45%, 20%);
 
 $board-with: 95vw;
 
@@ -20,6 +20,15 @@ $board-with: 95vw;
   padding: 0;
   margin: 0;
   font-family: sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
 }
 
 .App {
@@ -414,6 +423,13 @@ $board-with: 95vw;
         .info-difficulty {
           text-transform: capitalize;
         }
+      }
+
+      .generation-time {
+        margin-top: 1rem;
+        font-size: 0.7rem;
+        color: $trans-white-dark;
+        text-align: center;
       }
     }
 

@@ -33,6 +33,7 @@ const Context: FC = ({ children }) => {
   const [difficulty, setDifficulty] = useState<TDifficulty>('normal');
   const [numOfHoles, setNumOfHoles] = useState<number>(40);
   const [solvedBoard, setSolvedBoard] = useState<TSolvedBoard>([]);
+  const [generationTime, setGenerationTime] = useState<string>('');
   const [board, setBoard] = useState<TSudokuBoard>([]);
   const [attempts, setAttempts] = useState<number>(0);
   const [totalMisses, setTotalMisses] = useState<number>(0);
@@ -69,7 +70,10 @@ const Context: FC = ({ children }) => {
   }
 
   function generateBoard(board: Array<Array<number>>) {
+    const startTime = performance.now();
     const objectBoard = generateStartingBoard([...board]);
+    const endTime = performance.now();
+    setGenerationTime((endTime - startTime).toPrecision(3));
     const startingBoard = pokeHolesInBoard(objectBoard, numOfHoles);
     setBoard(startingBoard);
   }
@@ -153,6 +157,7 @@ const Context: FC = ({ children }) => {
         difficulty,
         selectDifficulty,
         board,
+        generationTime,
         generateSolvedBoard,
         checkCorrectness,
         attempts,

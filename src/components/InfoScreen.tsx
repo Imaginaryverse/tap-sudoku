@@ -3,6 +3,7 @@ import formatTime from '../utils/formatTime';
 import formatPercent from '../utils/formatPercent';
 
 interface IProps {
+  generationTime: string;
   difficulty: string;
   timer: number;
   attempts: number;
@@ -12,6 +13,7 @@ interface IProps {
 }
 
 const InfoScreen: FC<IProps> = ({
+  generationTime,
   difficulty,
   timer,
   numOfFilled,
@@ -34,7 +36,10 @@ const InfoScreen: FC<IProps> = ({
         <b>Number of attempts</b>: {attempts}
       </p>
       <p className='info'>
-        <b>Accuracy</b>: {attempts ? formatPercent(accuracy) : 'No attemps'}
+        <b>Accuracy</b>: {attempts ? formatPercent(accuracy) : 'No attempts'}
+      </p>
+      <p className='generation-time'>
+        This board was generated in <b>{generationTime}</b> ms
       </p>
     </div>
   );

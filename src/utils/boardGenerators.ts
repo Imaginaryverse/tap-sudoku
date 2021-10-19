@@ -1,5 +1,7 @@
 import { TSudokuBoard } from '../context';
 import { shuffleArray } from './arrayUtils';
+import generateRandomNumber from './generateRandomNumber';
+
 const N = 9;
 
 function isSafe(
@@ -75,7 +77,30 @@ function solveSudoku(board: Array<Array<number>>, n: number) {
   return false;
 }
 
-function generateSolution() {
+function fillRandomCell(
+  board: Array<Array<number>>,
+  num: number,
+  startTime: number
+) {
+  // console.log((performance.now() - startTime).toPrecision(2));
+  const shouldAbort = performance.now() - startTime > 7.5;
+  if (shouldAbort) {
+    throw new Error('ERROR! Timeout limit exceeded');
+  }
+
+  const val = Math.floor(Math.random() * 81);
+  const randomRowIndex = Math.floor(val / 9);
+  const randomColIndex = val % 9;
+
+  if (isSafe(board, randomRowIndex, randomColIndex, num)) {
+    board[randomRowIndex][randomColIndex] = num;
+    return;
+  } else {
+    fillRandomCell(board, num, startTime);
+  }
+}
+
+function generateProtoBoard() {
   const protoBoard = [
     shuffleArray([1, 2, 3, 4, 5, 6, 7, 8, 9]),
     new Array(9).fill(0),
@@ -87,6 +112,24 @@ function generateSolution() {
     new Array(9).fill(0),
     new Array(9).fill(0),
   ];
+
+  const startTime = performance.now();
+
+  for (let i = 0; i < 9; i++) {
+    try {
+      const randomNum = generateRandomNumber(1, 10);
+      fillRandomCell(protoBoard, randomNum, startTime);
+    } catch (e) {
+      console.log(e);
+      return protoBoard;
+    }
+  }
+
+  return protoBoard;
+}
+
+function generateSolution() {
+  const protoBoard = generateProtoBoard();
 
   if (solveSudoku(protoBoard, N)) {
     return [...protoBoard];

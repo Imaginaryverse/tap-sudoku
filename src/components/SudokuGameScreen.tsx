@@ -19,6 +19,7 @@ export type TSelectedCell = {
 const SudokuBoard: FC = () => {
   const {
     board,
+    generationTime,
     checkCorrectness,
     attempts,
     isCorrectSolution,
@@ -134,9 +135,9 @@ const SudokuBoard: FC = () => {
   return (
     <div className='sudoku-game-screen'>
       <table className='sudoku-board' cellPadding='0' cellSpacing='0'>
-        <tbody>
-          {localBoard.length &&
-            localBoard.map((row: TSudokuBoardRow, r: number) => {
+        {localBoard.length ? (
+          <tbody>
+            {localBoard.map((row: TSudokuBoardRow, r: number) => {
               return (
                 <tr className='board-row' key={r}>
                   {row.map((cell, c) => (
@@ -176,13 +177,15 @@ const SudokuBoard: FC = () => {
                 </tr>
               );
             })}
-        </tbody>
+          </tbody>
+        ) : null}
       </table>
 
       <div className='bottom-container'>
         <div className={`info-wrapper ${!selectedCell ? 'open' : ''}`}>
           {!isCorrectSolution ? (
             <InfoScreen
+              generationTime={generationTime}
               difficulty={difficulty}
               timer={timer}
               numOfFilled={numOfFilled}

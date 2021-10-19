@@ -5,6 +5,15 @@
   font-family: sans-serif;
 }
 
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: white;
+}
+
 .App {
   height: 100vh;
   width: 100vw;
@@ -118,10 +127,10 @@
   cursor: pointer;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell:not(.locked):not(.done):hover:not(.selected) {
-  background-color: #816831;
+  background-color: #665227;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell:not(.locked):not(.done):hover:not(.selected).highlight {
-  background-color: #a6863f;
+  background-color: #816831;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell.selected {
   background-color: #a6863f;
@@ -132,10 +141,10 @@
   background-color: #282828;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell.locked.highlight {
-  background-color: #5c4a23;
+  background-color: #4a3b1c;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell.highlight {
-  background-color: #816831;
+  background-color: #665227;
 }
 .sudoku-game-screen .sudoku-board .board-row .board-cell .cell-value.correct {
   color: #23ce6b;
@@ -253,7 +262,7 @@
   background-color: #a6863f;
 }
 .bottom-container .cell-editor-wrapper .cell-editor .cell-value-list .val-btn:not(.selected):hover {
-  background-color: #816831;
+  background-color: #665227;
 }
 .bottom-container .cell-editor-wrapper .cell-editor .candidates-row {
   grid-area: candidates-row;
@@ -277,7 +286,7 @@
   border-color: #464646;
 }
 .bottom-container .cell-editor-wrapper .cell-editor .candidates-row .cell-candidates-list .candidate-btn:not(.selected):hover {
-  background-color: #816831;
+  background-color: #665227;
 }
 .bottom-container .cell-editor-wrapper .cell-editor .candidates-row .cell-candidates-list .candidate-btn.selected {
   background-color: #a6863f;
@@ -307,6 +316,12 @@
 }
 .bottom-container .info-wrapper .info-screen .info .info-difficulty {
   text-transform: capitalize;
+}
+.bottom-container .info-wrapper .info-screen .generation-time {
+  margin-top: 1rem;
+  font-size: 0.7rem;
+  color: #464646;
+  text-align: center;
 }
 .bottom-container .info-wrapper .result-screen {
   height: 100%;
