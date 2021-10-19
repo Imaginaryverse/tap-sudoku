@@ -1,11 +1,18 @@
 // $bg-color: #221b20;
 $bg-color: rgb(20, 20, 20);
 $trans-white-darker: rgba(100, 100, 100, 0.1);
-$trans-white-dark: rgba(255, 255, 255, 0.25);
+$trans-white-dark: rgba(255, 255, 255, 0.2);
+$gray-dark: rgb(68, 68, 68);
 $trans-white-medium: rgba(255, 255, 255, 0.5);
 $trans-white-light: rgba(218, 209, 90, 0.75);
-$selected: hsla(162, 69%, 69%, 0.6);
-$highlighted: hsla(162, 69%, 69%, 0.35);
+// $selected: hsla(162, 69%, 69%, 0.6);
+// $selected: hsla(56, 69%, 69%, 0.6);
+$selected: rgba(215, 64, 235, 0.5);
+// $highlighted: hsla(162, 69%, 69%, 0.25);
+// $highlighted: hsla(56, 40%, 69%, 0.45);
+$highlighted: rgba(215, 64, 235, 0.2);
+$highlighted-hover: rgba(215, 64, 235, 0.35);
+$highlighted-locked: rgba(215, 64, 235, 0.1);
 $btn-hover: rgba(100, 100, 100, 0.2);
 
 * {
@@ -41,13 +48,6 @@ $btn-hover: rgba(100, 100, 100, 0.2);
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
 
   transition: all 0.1s ease;
-
-  &:disabled {
-    height: 0;
-    overflow: hidden;
-    color: $trans-white-dark;
-    border-color: $trans-white-dark;
-  }
 
   &:not(:disabled) {
     &:hover {
@@ -101,11 +101,8 @@ $btn-hover: rgba(100, 100, 100, 0.2);
   align-items: center;
 
   .sudoku-board {
-    border-top: 1px solid $trans-white-dark;
-    border-left: 1px solid $trans-white-dark;
-    margin-bottom: 1rem;
-
     background-color: transparent;
+    border-left: 1px solid $trans-white-dark;
     border-top: 1px solid $trans-white-dark;
     border-bottom: 1px solid $trans-white-dark;
     box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
@@ -161,6 +158,10 @@ $btn-hover: rgba(100, 100, 100, 0.2);
               cursor: pointer;
               &:not(.selected) {
                 background-color: $highlighted;
+
+                &.highlight {
+                  background-color: $highlighted-hover;
+                }
               }
             }
           }
@@ -174,6 +175,14 @@ $btn-hover: rgba(100, 100, 100, 0.2);
           font-weight: 500;
           color: rgba(145, 145, 145);
           background-color: $trans-white-darker;
+
+          &.highlight {
+            background-color: $highlighted-locked;
+          }
+        }
+
+        &.highlight {
+          background-color: $highlighted;
         }
 
         .cell-value {
@@ -190,7 +199,7 @@ $btn-hover: rgba(100, 100, 100, 0.2);
   }
 
   .game-btn-container {
-    width: 100%;
+    width: 95.5%;
     max-width: 453px;
     margin-top: 0.75rem;
 
@@ -199,124 +208,236 @@ $btn-hover: rgba(100, 100, 100, 0.2);
     align-items: center;
 
     .btn {
-      margin: 0 1rem;
+      width: 45%;
+    }
+
+    .quit-btn {
+      // height: min-content;
+      // width: min-content;
+      padding: 0.5rem 1rem;
+      border: none;
+
+      &:hover {
+        color: red;
+        background-color: rgba(255, 0, 0, 0.2);
+      }
+    }
+
+    .play-again-btn {
+      border: 2px solid rgb(92, 148, 90);
+    }
+
+    .try-solution-btn {
+      border: 2px solid $trans-white-dark;
+
+      &:disabled {
+        // height: 0;
+        overflow: hidden;
+        color: $trans-white-dark;
+        border-color: $trans-white-dark;
+      }
     }
   }
 }
 
 .bottom-container {
-  height: 150px;
+  height: 175px;
   width: 95.5%;
   max-width: 453px;
+  margin-top: 0.75rem;
+
+  display: flex;
+  overflow: hidden;
 
   border: 1px solid $trans-white-dark;
 
-  .cell-editor {
+  .cell-editor-wrapper {
     height: 100%;
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
+    width: 0;
+    transform: translateX(100%);
 
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    transition: all 0.2s ease;
 
-    .cell-value-list {
+    &.open {
+      width: 100%;
+      transform: translateX(0);
+    }
+
+    .cell-editor {
       height: 100%;
       width: 100%;
-      margin-right: 5%;
+      padding: 2.5%;
 
       display: grid;
-      grid-template-rows: repeat(3, 1fr);
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.25rem;
+      grid-template-columns: 0.75fr 1.25fr;
+      grid-template-rows: 1fr 1.25fr 0.75fr;
+      gap: 2.5% 5%;
+      grid-template-areas:
+        'editor-btn-container cell-value-list'
+        'editor-btn-container cell-value-list'
+        'candidates-row candidates-row';
 
-      .val-btn {
+      .editor-btn-container {
+        grid-area: editor-btn-container;
+        padding-left: 5%;
+
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+
+        .close-btn {
+          border: 2px solid $trans-white-dark;
+        }
+
+        .reset-btn {
+          height: min-content;
+          width: min-content;
+          padding: 0.5rem 1rem;
+          border: none;
+
+          &:hover {
+            color: red;
+            background-color: rgba(255, 0, 0, 0.2);
+          }
+        }
+      }
+
+      .cell-value-list {
         height: 100%;
         width: 100%;
 
-        border: 2px solid $trans-white-dark;
-        border-radius: 0;
+        display: grid;
+        grid-area: cell-value-list;
+        grid-template-rows: repeat(3, 1fr);
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0.25rem;
 
-        &.selected {
-          background-color: $selected;
+        .val-btn {
+          height: 100%;
+          width: 100%;
+
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          font-size: 1rem;
+
+          border: 2px solid $trans-white-dark;
+          border-radius: 10px;
+
+          &.selected {
+            background-color: $selected;
+          }
+
+          &:not(.selected) {
+            &:hover {
+              background-color: $highlighted;
+            }
+          }
+        }
+      }
+
+      .candidates-row {
+        grid-area: candidates-row;
+        margin-top: 0.25rem;
+
+        display: flex;
+
+        .candidates-label {
+          margin-right: 1rem;
+
+          color: white;
+          font-size: 0.8rem;
+        }
+
+        .cell-candidates-list {
+          height: 100%;
+          width: 100%;
+
+          display: flex;
+          justify-content: space-between;
+
+          .candidate-btn {
+            height: 100%;
+            width: calc(100% / 10.5);
+
+            border-color: $trans-white-dark;
+
+            &:not(.selected) {
+              &:hover {
+                background-color: rgba(215, 64, 235, 0.2);
+              }
+            }
+
+            &.selected {
+              background-color: rgba(215, 64, 235, 0.5);
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .info-wrapper {
+    height: 100%;
+    width: 0;
+
+    overflow: hidden;
+    transform: translateX(-100%);
+
+    transition: all 0.2s ease;
+
+    &.open {
+      width: 100%;
+      transform: translateX(0);
+    }
+
+    .info-screen {
+      height: 100%;
+      width: 100%;
+      min-width: 300px;
+      padding: 0.75rem;
+
+      overflow: hidden;
+
+      color: white;
+      line-height: 1.5;
+
+      .info {
+        font-size: 0.9rem;
+
+        .info-difficulty {
+          text-transform: capitalize;
         }
       }
     }
 
-    .cell-candidates-list {
+    .result-screen {
       height: 100%;
       width: 100%;
 
-      display: grid;
-      justify-items: center;
-      align-items: center;
-      grid-template-rows: repeat(3, 1fr);
-      grid-template-columns: repeat(3, 1fr);
-      gap: 0.25rem;
+      overflow: hidden;
 
-      .candidate-btn {
-        height: 75%;
-        width: 75%;
-
-        &.selected {
-          background-color: rgb(255, 232, 155);
-        }
-      }
-    }
-
-    .editor-btn-container {
-      margin-top: 0.5rem;
       display: flex;
+      flex-direction: column;
       justify-content: center;
-    }
-  }
+      align-items: center;
 
-  .info-screen {
-    height: 100%;
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
+      color: white;
 
-    color: white;
-    line-height: 1.5;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
-
-    .info {
-      font-size: 0.9rem;
-
-      .info-difficulty {
-        text-transform: capitalize;
+      .result-title {
+        margin-bottom: 1rem;
+        color: rgb(92, 148, 90);
       }
-    }
-  }
 
-  .result-screen {
-    height: 100%;
-    width: 100%;
-    padding: 0.75rem;
-    margin-bottom: 1rem;
+      .result-info {
+        max-width: 85%;
+        margin-bottom: 0.25rem;
 
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-    color: white;
-
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
-
-    .result-title {
-      margin-bottom: 0.5rem;
-      color: rgb(92, 148, 90);
-    }
-
-    .result-info {
-      max-width: 85%;
-      margin-bottom: 0.25rem;
-
-      text-align: center;
-      font-size: 0.9rem;
+        text-align: center;
+        font-size: 0.9rem;
+      }
     }
   }
 }

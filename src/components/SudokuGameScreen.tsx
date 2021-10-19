@@ -24,12 +24,51 @@ const SudokuBoard: FC = () => {
     isCorrectSolution,
     difficulty,
     accuracy,
+    numOfHoles,
     setGameState,
   } = useContext(appContext);
   const [localBoard, setLocalBoard] = useState<TSudokuBoard>([]);
   const [selectedCell, setSelectedCell] = useState<TSelectedCell>(null);
   const [timer, setTimer] = useState<number>(0);
+  const [numOfFilled, setNumOfFilled] = useState<number>(0);
   const [isIncomplete, setIsComplete] = useState<boolean>(true);
+
+  function resetHighlight(board: TSudokuBoard) {
+    const resetBoard = board.map(row => {
+      return row.map(cell => {
+        return { ...cell, isHighlighted: false };
+      });
+    });
+
+    return resetBoard;
+  }
+
+  function highlightCells(rowIndex: number, colIndex: number) {
+    setLocalBoard(prevState => {
+      const highlightedBoard = resetHighlight(prevState);
+
+      if (selectedCell?.rowIndex !== rowIndex) {
+        highlightedBoard[rowIndex].forEach(cell => (cell.isHighlighted = true));
+      }
+
+      if (selectedCell?.colIndex !== colIndex) {
+        highlightedBoard.forEach(row => (row[colIndex].isHighlighted = true));
+      }
+
+      const boxRowStart = rowIndex - (rowIndex % 3);
+      const boxColStart = colIndex - (colIndex % 3);
+
+      for (let r = boxRowStart; r < boxRowStart + 3; r++) {
+        for (let c = boxColStart; c < boxColStart + 3; c++) {
+          highlightedBoard[r][c].isHighlighted = true;
+        }
+      }
+
+      highlightedBoard[rowIndex][colIndex].isHighlighted = false;
+
+      return highlightedBoard;
+    });
+  }
 
   function selectCell(
     value: number,
@@ -37,11 +76,13 @@ const SudokuBoard: FC = () => {
     rowIndex: number,
     colIndex: number
   ) {
+    highlightCells(rowIndex, colIndex);
     setSelectedCell({ value, candidates, rowIndex, colIndex });
   }
 
   function handleCloseClick() {
     setSelectedCell(null);
+    setLocalBoard(prevState => resetHighlight(prevState));
   }
 
   function updateCell(
@@ -55,25 +96,11 @@ const SudokuBoard: FC = () => {
 
       updatedBoard[rowIndex][colIndex].value = value;
       updatedBoard[rowIndex][colIndex].candidates = candidates;
+      updatedBoard[rowIndex][colIndex].showCorrectness = false;
+      updatedBoard[rowIndex][colIndex].isCorrect = false;
 
       return updatedBoard;
     });
-  }
-
-  function increment(rowIndex: number, colIndex: number) {
-    if (isCorrectSolution) return;
-
-    const copy = [...board];
-
-    if (copy[rowIndex][colIndex].value === 9) {
-      copy[rowIndex][colIndex].value = 0;
-      copy[rowIndex][colIndex].incorrect = false;
-    } else {
-      copy[rowIndex][colIndex].value++;
-      copy[rowIndex][colIndex].incorrect = false;
-    }
-
-    setLocalBoard(copy);
   }
 
   useEffect(() => {
@@ -91,6 +118,16 @@ const SudokuBoard: FC = () => {
   }, [isCorrectSolution]);
 
   useEffect(() => {
+    let filledCells = 0;
+    localBoard.forEach(row => {
+      row.forEach(cell => {
+        if (!cell.isLocked && cell.value) {
+          filledCells += 1;
+        }
+      });
+    });
+
+    setNumOfFilled(filledCells);
     setIsComplete(localBoard.some(row => row.some(cell => cell.value === 0)));
   }, [localBoard]);
 
@@ -115,26 +152,26 @@ const SudokuBoard: FC = () => {
                         c === selectedCell.colIndex
                           ? 'selected'
                           : ''
-                      }`}
+                      } ${cell.isHighlighted ? 'highlight' : ''}`}
                       onClick={
                         !cell.isLocked
                           ? () =>
                               selectedCell?.rowIndex === r &&
                               selectedCell.colIndex === c
-                                ? setSelectedCell(null)
+                                ? handleCloseClick()
                                 : selectCell(cell.value, cell.candidates, r, c)
                           : undefined
                       }
                       key={c}
                     >
                       <p
-                        className={
-                          !cell.isLocked && isCorrectSolution && cell.isCorrect
-                            ? 'correct'
-                            : !isCorrectSolution
-                            ? 'incorrect'
+                        className={`cell-value ${
+                          !cell.isLocked && cell.showCorrectness
+                            ? cell.isCorrect
+                              ? 'correct'
+                              : 'incorrect'
                             : ''
-                        }
+                        }`}
                       >
                         {cell.value ? cell.value : null}
                       </p>
@@ -147,22 +184,13 @@ const SudokuBoard: FC = () => {
       </table>
 
       <div className='bottom-container'>
-        {selectedCell && (
-          <CellEditor
-            value={selectedCell.value}
-            candidates={selectedCell.candidates}
-            rowIndex={selectedCell.rowIndex}
-            colIndex={selectedCell.colIndex}
-            onClose={handleCloseClick}
-            onCellChange={updateCell}
-          />
-        )}
-
-        {!selectedCell &&
-          (!isCorrectSolution ? (
+        <div className={`info-wrapper ${!selectedCell ? 'open' : ''}`}>
+          {!isCorrectSolution ? (
             <InfoScreen
               difficulty={difficulty}
               timer={timer}
+              numOfFilled={numOfFilled}
+              numOfHoles={numOfHoles}
               attempts={attempts}
               accuracy={accuracy}
             />
@@ -173,15 +201,28 @@ const SudokuBoard: FC = () => {
               attempts={attempts}
               accuracy={accuracy}
             />
-          ))}
+          )}
+        </div>
+        <div className={`cell-editor-wrapper ${selectedCell ? 'open' : ''}`}>
+          {selectedCell && (
+            <CellEditor
+              value={selectedCell.value}
+              candidates={selectedCell.candidates}
+              rowIndex={selectedCell.rowIndex}
+              colIndex={selectedCell.colIndex}
+              onClose={handleCloseClick}
+              onCellChange={updateCell}
+            />
+          )}
+        </div>
       </div>
 
       <div className='game-btn-container'>
         <button
-          className='btn back-btn'
+          className={`btn ${isCorrectSolution ? 'play-again-btn' : 'quit-btn'}`}
           onClick={() => setGameState('IN_SELECT_DIFFICULTY')}
         >
-          {isCorrectSolution ? 'Play Again' : 'Back'}
+          {isCorrectSolution ? 'Play Again' : 'Quit'}
         </button>
         {!isCorrectSolution && (
           <button

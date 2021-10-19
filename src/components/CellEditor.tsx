@@ -37,6 +37,11 @@ const CellEditor: FC<IProps> = ({
     );
   }
 
+  function handleResetClick() {
+    setSelectedVal(0);
+    setSelectedCandidates([]);
+  }
+
   useEffect(() => {
     onCellChange(selectedVal, selectedCandidates, rowIndex, colIndex);
   }, [selectedVal, selectedCandidates]);
@@ -48,6 +53,14 @@ const CellEditor: FC<IProps> = ({
 
   return (
     <div className='cell-editor'>
+      <div className='editor-btn-container'>
+        <button className='btn close-btn' onClick={() => onClose()}>
+          Close
+        </button>
+        <button className='btn reset-btn' onClick={() => handleResetClick()}>
+          Reset
+        </button>
+      </div>
       <ul className='cell-value-list'>
         {numbers.map(val => {
           return (
@@ -61,26 +74,24 @@ const CellEditor: FC<IProps> = ({
         })}
       </ul>
 
-      <ul className='cell-candidates-list'>
-        {numbers.map(candidate => {
-          return (
-            <button
-              className={`btn candidate-btn ${
-                selectedCandidates.includes(candidate) ? 'selected' : ''
-              }`}
-              onClick={() => handleCandidateClick(candidate)}
-            >
-              {candidate}
-            </button>
-          );
-        })}
-      </ul>
+      <div className='candidates-row'>
+        {/* <p className='candidates-label'>Candidates:</p> */}
 
-      {/* <div className='editor-btn-container'>
-        <button className='btn close-edit-btn' onClick={() => onClose()}>
-          Close
-        </button>
-      </div> */}
+        <ul className='cell-candidates-list'>
+          {numbers.map(candidate => {
+            return (
+              <button
+                className={`btn candidate-btn ${
+                  selectedCandidates.includes(candidate) ? 'selected' : ''
+                }`}
+                onClick={() => handleCandidateClick(candidate)}
+              >
+                {candidate}
+              </button>
+            );
+          })}
+        </ul>
+      </div>
     </div>
   );
 };

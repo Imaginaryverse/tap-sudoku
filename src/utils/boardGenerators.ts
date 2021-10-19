@@ -101,8 +101,9 @@ function generateStartingBoard(array: Array<Array<number>>) {
       return {
         value: num,
         candidates: [],
-        isLocked: num !== 0,
-        isCorrect: false,
+        isLocked: true,
+        isCorrect: true,
+        showCorrectness: false,
         isHighlighted: false,
       };
     })
@@ -123,6 +124,7 @@ function pokeHolesInBoard(board: TSudokuBoard, holes: number) {
     if (newArr[randomRowIndex][randomColIndex].value !== 0) {
       newArr[randomRowIndex][randomColIndex].value = 0;
       newArr[randomRowIndex][randomColIndex].isLocked = false;
+      newArr[randomRowIndex][randomColIndex].isCorrect = false;
       pokes++;
     }
   }

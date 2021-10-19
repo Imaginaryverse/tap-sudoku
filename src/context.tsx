@@ -11,6 +11,7 @@ export type TSudokuCell = {
   candidates: Array<number>;
   isLocked: boolean;
   isCorrect: boolean;
+  showCorrectness: boolean;
   isHighlighted: boolean;
 };
 export type TSudokuBoardRow = Array<TSudokuCell>;
@@ -79,12 +80,15 @@ const Context: FC = ({ children }) => {
 
     for (let row in checkedBoard) {
       for (let col in checkedBoard[row]) {
-        if (
-          !checkedBoard[row][col].isLocked &&
-          checkedBoard[row][col].value !== solvedBoard[row][col]
-        ) {
-          checkedBoard[row][col].isCorrect = false;
-          setTotalMisses(prevState => (prevState += 1));
+        if (!checkedBoard[row][col].isLocked) {
+          checkedBoard[row][col].showCorrectness = true;
+
+          if (checkedBoard[row][col].value !== solvedBoard[row][col]) {
+            checkedBoard[row][col].isCorrect = false;
+            setTotalMisses(prevState => (prevState += 1));
+          } else {
+            checkedBoard[row][col].isCorrect = true;
+          }
         }
       }
     }
@@ -154,6 +158,7 @@ const Context: FC = ({ children }) => {
         attempts,
         isCorrectSolution,
         accuracy,
+        numOfHoles,
       }}
     >
       {children}
