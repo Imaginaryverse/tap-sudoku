@@ -47,13 +47,9 @@ const SudokuBoard: FC = () => {
     setLocalBoard(prevState => {
       const highlightedBoard = resetHighlight(prevState);
 
-      if (selectedCell?.rowIndex !== rowIndex) {
-        highlightedBoard[rowIndex].forEach(cell => (cell.isHighlighted = true));
-      }
+      highlightedBoard[rowIndex].forEach(cell => (cell.isHighlighted = true));
 
-      if (selectedCell?.colIndex !== colIndex) {
-        highlightedBoard.forEach(row => (row[colIndex].isHighlighted = true));
-      }
+      highlightedBoard.forEach(row => (row[colIndex].isHighlighted = true));
 
       const boxRowStart = rowIndex - (rowIndex % 3);
       const boxColStart = colIndex - (colIndex % 3);

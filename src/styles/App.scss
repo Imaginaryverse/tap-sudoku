@@ -1,19 +1,19 @@
-// $bg-color: #221b20;
-$bg-color: rgb(20, 20, 20);
-$trans-white-darker: rgba(100, 100, 100, 0.1);
-$trans-white-dark: rgba(255, 255, 255, 0.2);
-$gray-dark: rgb(68, 68, 68);
-$trans-white-medium: rgba(255, 255, 255, 0.5);
-$trans-white-light: rgba(218, 209, 90, 0.75);
-// $selected: hsla(162, 69%, 69%, 0.6);
-// $selected: hsla(56, 69%, 69%, 0.6);
-$selected: rgba(215, 64, 235, 0.5);
-// $highlighted: hsla(162, 69%, 69%, 0.25);
-// $highlighted: hsla(56, 40%, 69%, 0.45);
-$highlighted: rgba(215, 64, 235, 0.2);
-$highlighted-hover: rgba(215, 64, 235, 0.35);
-$highlighted-locked: rgba(215, 64, 235, 0.1);
+$bg-color: #141414;
+$error-color: #c52233;
+$correct-color: #23ce6b;
+$trans-white-darker: rgb(40, 40, 40);
+$trans-white-dark: rgb(70, 70, 70);
+$trans-white-medium: rgb(140, 140, 140);
+$trans-white-light: rgb(180, 180, 180);
+
 $btn-hover: rgba(100, 100, 100, 0.2);
+
+$selected: hsl(41, 45%, 45%);
+$highlighted: hsl(41, 45%, 35%);
+$highlighted-hover: hsl(41, 45%, 45%);
+$highlighted-locked: hsl(41, 45%, 25%);
+
+$board-with: 95vw;
 
 * {
   box-sizing: border-box;
@@ -25,7 +25,7 @@ $btn-hover: rgba(100, 100, 100, 0.2);
 .App {
   height: 100vh;
   width: 100vw;
-  padding: 1rem 0;
+  padding: 0.5rem 0;
 
   display: flex;
   flex-direction: column;
@@ -101,31 +101,33 @@ $btn-hover: rgba(100, 100, 100, 0.2);
   align-items: center;
 
   .sudoku-board {
-    background-color: transparent;
-    border-left: 1px solid $trans-white-dark;
-    border-top: 1px solid $trans-white-dark;
-    border-bottom: 1px solid $trans-white-dark;
-    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.075);
+    width: $board-with;
+    max-width: 453px;
+    height: $board-with;
+    max-height: 453px;
+
+    border: 2px solid black;
+    background-color: black;
 
     .board-row {
       display: flex;
 
       &:not(:nth-child(9)) {
-        border-bottom: 1px solid $trans-white-dark;
+        margin-bottom: 2px;
       }
 
       &:nth-child(3) {
-        border-bottom: 3px solid $trans-white-dark;
+        margin-bottom: 4px;
       }
 
       &:nth-child(6) {
-        border-bottom: 3px solid $trans-white-dark;
+        margin-bottom: 4px;
       }
 
       .board-cell {
-        height: calc(100vw / 9.5);
+        height: calc(95vw / 9);
         max-height: 50px;
-        width: calc(100vw / 9.5);
+        width: calc(100% / 9);
         max-width: 50px;
 
         display: flex;
@@ -138,16 +140,18 @@ $btn-hover: rgba(100, 100, 100, 0.2);
         font-weight: 900;
         color: white;
 
-        &:not(:nth-child(3), :nth-child(6)) {
-          border-right: 1px solid $trans-white-dark;
+        background-color: $bg-color;
+
+        &:not(:nth-child(3), :nth-child(6), :nth-child(9)) {
+          margin-right: 2px;
         }
 
         &:nth-child(3) {
-          border-right: 3px solid $trans-white-dark;
+          margin-right: 4px;
         }
 
         &:nth-child(6) {
-          border-right: 3px solid $trans-white-dark;
+          margin-right: 4px;
         }
 
         transition: all 0.3s ease;
@@ -173,7 +177,7 @@ $btn-hover: rgba(100, 100, 100, 0.2);
 
         &.locked {
           font-weight: 500;
-          color: rgba(145, 145, 145);
+          color: $trans-white-light;
           background-color: $trans-white-darker;
 
           &.highlight {
@@ -187,11 +191,11 @@ $btn-hover: rgba(100, 100, 100, 0.2);
 
         .cell-value {
           &.correct {
-            color: rgb(92, 148, 90);
+            color: $correct-color;
           }
 
           &.incorrect {
-            color: red;
+            color: $error-color;
           }
         }
       }
@@ -199,7 +203,7 @@ $btn-hover: rgba(100, 100, 100, 0.2);
   }
 
   .game-btn-container {
-    width: 95.5%;
+    width: $board-with;
     max-width: 453px;
     margin-top: 0.75rem;
 
@@ -208,12 +212,11 @@ $btn-hover: rgba(100, 100, 100, 0.2);
     align-items: center;
 
     .btn {
+      height: 35px;
       width: 45%;
     }
 
     .quit-btn {
-      // height: min-content;
-      // width: min-content;
       padding: 0.5rem 1rem;
       border: none;
 
@@ -224,7 +227,7 @@ $btn-hover: rgba(100, 100, 100, 0.2);
     }
 
     .play-again-btn {
-      border: 2px solid rgb(92, 148, 90);
+      border: 2px solid $correct-color;
     }
 
     .try-solution-btn {
@@ -242,14 +245,14 @@ $btn-hover: rgba(100, 100, 100, 0.2);
 
 .bottom-container {
   height: 175px;
-  width: 95.5%;
+  width: $board-with;
   max-width: 453px;
   margin-top: 0.75rem;
 
   display: flex;
   overflow: hidden;
 
-  border: 1px solid $trans-white-dark;
+  border: 2px solid black;
 
   .cell-editor-wrapper {
     height: 100%;
@@ -265,7 +268,8 @@ $btn-hover: rgba(100, 100, 100, 0.2);
 
     .cell-editor {
       height: 100%;
-      width: 100%;
+      width: $board-with;
+      max-width: 453px;
       padding: 2.5%;
 
       display: grid;
@@ -366,12 +370,12 @@ $btn-hover: rgba(100, 100, 100, 0.2);
 
             &:not(.selected) {
               &:hover {
-                background-color: rgba(215, 64, 235, 0.2);
+                background-color: $highlighted;
               }
             }
 
             &.selected {
-              background-color: rgba(215, 64, 235, 0.5);
+              background-color: $selected;
             }
           }
         }
@@ -401,7 +405,7 @@ $btn-hover: rgba(100, 100, 100, 0.2);
 
       overflow: hidden;
 
-      color: white;
+      color: $trans-white-light;
       line-height: 1.5;
 
       .info {
@@ -424,7 +428,7 @@ $btn-hover: rgba(100, 100, 100, 0.2);
       justify-content: center;
       align-items: center;
 
-      color: white;
+      color: $trans-white-light;
 
       .result-title {
         margin-bottom: 1rem;
